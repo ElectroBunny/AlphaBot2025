@@ -14,12 +14,21 @@ package frc.robot;
  */
 public final class Constants {
   public static final int ARM_MOTOR_ID = 0;
+
   public static final double ARM_POSITION_CONVERTION_FACTOR = 1;
+
   public static final double ARM_P = 1;
   public static final double ARM_D = 1;
   public static final double ARM_I = 1;
+
   public static final double MAX_OUTPUT_RANGE = 1;
   public static final double MIN_OUTPUT_RANGE = -1;
+
+  public static final double MAX_ARM_VELOCITY = 1000;
+  public static final double MAX_ARM_ACCELERATION = 1000;
+
+  public static final double SPARK_MAX_ENCODER_SPINs_NUM = 4096;
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }

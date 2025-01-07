@@ -5,23 +5,33 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import org.opencv.core.Mat;
+
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
+
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
-  private SparkMax motor;
-  private SparkMaxConfig motorConfig;
+  private SparkFlex motor;
+  private SparkFlexConfig motorConfig;
   private SparkClosedLoopController closedLoopController;
   private RelativeEncoder encoder;
   private static Arm instance=null;
   /** Creates a new Arm. */
   public Arm() {
-    this.motor = new SparkMax(Constants.ARM_MOTOR_ID, null); // the type is in need to be changed
+    this.motor = new SparkFlex(Constants.ARM_MOTOR_ID, MotorType.kBrushless); // the type is in need to be changed
     this.closedLoopController = this.motor.getClosedLoopController();
     this.encoder = this.motor.getEncoder();
 
@@ -29,7 +39,7 @@ public class Arm extends SubsystemBase {
      * Create a new SPARK MAX configuration object. This will store the
      * configuration parameters for the SPARK MAX that we will set below.
      */
-    motorConfig = new SparkMaxConfig();
+    motorConfig = new SparkFlexConfig();
 
     // configure encoder to specific conversion factor.
     this.motorConfig.encoder.positionConversionFactor(Constants.ARM_POSITION_CONVERTION_FACTOR); // maybe need to add velocity control.
@@ -41,6 +51,16 @@ public class Arm extends SubsystemBase {
     .d(Constants.ARM_D)
     .outputRange(Constants.MIN_OUTPUT_RANGE, Constants.MAX_OUTPUT_RANGE);
 
+    //set max acceleration and velocity.
+    this.motorConfig.closedLoop.maxMotion
+    .maxVelocity(Constants.MAX_ARM_VELOCITY)
+    .maxAcceleration(Constants.MAX_ARM_ACCELERATION);
+
+    // configuring the motor to save the settings.
+    this.motor.configure(this.motorConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
+
+    // in question if the encoder position in need of setting to 0.
+    //this.encoder.setPosition(0);
   }
 
   public static Arm getInstance()
@@ -50,6 +70,27 @@ public class Arm extends SubsystemBase {
       instance = new Arm();
     }
     return instance;
+  }
+
+  public void setAngle(double angle)
+  {
+    //sets the arm to a target angle
+    this.closedLoopController.setReference(Math.toRadians(angle), ControlType.kPosition);
+  }
+
+  public double getCurrentAngle_In_Rads()
+  {
+    return this.encoder.getPosition();
+  }
+
+  public void setVoltage(double voltage)
+  {
+    this.motor.setVoltage(voltage);
+  }
+
+  public void stopMotor()
+  {
+    this.motor.stopMotor();
   }
 
   @Override
