@@ -8,13 +8,14 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Climber extends SubsystemBase {
   private SparkFlex climberMotor;
   private static Climber instance = null;
 
   private Climber() {
-    climberMotor = new SparkFlex(0, MotorType.kBrushless);
+    climberMotor = new SparkFlex(Constants.CLIMBER_SPARK_ID, MotorType.kBrushless);
   }
 
   public void setPower(double power) {
