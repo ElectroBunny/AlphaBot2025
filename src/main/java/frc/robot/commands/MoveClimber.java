@@ -11,7 +11,7 @@ import frc.robot.subsystems.Climber;
 
 public class MoveClimber extends Command {
   private Climber climber;
-  DoubleSupplier joystick;
+  private DoubleSupplier joystick;
 
   /**
    * MoveClimber moves the climber up and down

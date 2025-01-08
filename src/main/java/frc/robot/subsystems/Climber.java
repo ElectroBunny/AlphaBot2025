@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
   private SparkFlex climberMotor;
-  private static Climber instance;
+  private static Climber instance = null;
 
   private Climber() {
     climberMotor = new SparkFlex(0, MotorType.kBrushless);
