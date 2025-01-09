@@ -19,7 +19,7 @@ public class PivotMoveWithJoystick extends Command {
   {
     doubleSupplier = myDoubleSupplier;
 
-    myPivot = Pivot.GetInstance();
+    myPivot = Pivot.getInstance();
     addRequirements(myPivot);
   }
 

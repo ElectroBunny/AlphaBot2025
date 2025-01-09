@@ -56,7 +56,7 @@ public class Pivot extends SubsystemBase {
     encoder.setPosition(motor.getAbsoluteEncoder().getPosition());
   }
 
-  public static Pivot GetInstance()
+  public static Pivot getInstance()
   {
     if (instance == null)
     {

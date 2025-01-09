@@ -15,7 +15,7 @@ public class PivotMoveToAngle extends Command {
   private PivotMoveToAngle(double myAngle)
   {
     this.myAngle = myAngle;
-    myPivot = Pivot.GetInstance();
+    myPivot = Pivot.getInstance();
     addRequirements(myPivot);
   }
 
