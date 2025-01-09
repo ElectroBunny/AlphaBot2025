@@ -29,6 +29,8 @@ public final class Constants {
 
   public static final double SPARK_MAX_ENCODER_SPINs_NUM = 4096;
 
+  public static final double ARM_TOLARANCE = 0;
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }

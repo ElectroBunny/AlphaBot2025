@@ -13,7 +13,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
-
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -43,7 +43,7 @@ public class Arm extends SubsystemBase {
     motorConfig = new SparkFlexConfig();
 
     // configure encoder to specific conversion factor.
-    this.motorConfig.encoder.positionConversionFactor(Constants.ARM_POSITION_CONVERTION_FACTOR); // maybe need to add velocity control.
+    this.motorConfig.encoder.positionConversionFactor(Constants.ARM_POSITION_CONVERTION_FACTOR);
     
     //set the motor to break mode so that the motor wont move.
     this.motorConfig.idleMode(IdleMode.kBrake);
@@ -58,14 +58,20 @@ public class Arm extends SubsystemBase {
     //set max acceleration and velocity.
     this.motorConfig.closedLoop.maxMotion
     .maxVelocity(Constants.MAX_ARM_VELOCITY)
-    .maxAcceleration(Constants.MAX_ARM_ACCELERATION);
+    .maxAcceleration(Constants.MAX_ARM_ACCELERATION)
+    .allowedClosedLoopError(1);
 
     // configuring the motor to save the settings.
     this.motor.configure(this.motorConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
 
     // in question if the encoder position in need of setting to 0.
-    //this.encoder.setPosition(0);
+    this.encoder.setPosition(this.motor.getAbsoluteEncoder().getPosition());
   }
+
+  /**
+   * Returns an instance of the class.
+   * @return an instance of the class
+   */
 
   public static Arm getInstance()
   {
@@ -76,11 +82,29 @@ public class Arm extends SubsystemBase {
     return instance;
   }
 
+  /***
+   * The function moves the motor to the wanted angle
+   * 
+   * @param angle - the angle to move the motor to
+   */
   public void setAngle(double angle)
   {
     //sets the arm to a target angle
-    this.closedLoopController.setReference(angle, ControlType.kPosition);
+    this.closedLoopController.setReference(angle,  ControlType.kMAXMotionPositionControl,ClosedLoopSlot.kSlot0);
   }
+
+  /***
+   * The function checks if the motor has reached the wanted angle
+   * 
+   * @param angle - The angle we want the motor to move to
+   * @return if the motor has reached the wanted angle
+   */
+  public boolean isAtAngle(double angle)
+  {
+    return encoder.getPosition() <= angle + Constants.ARM_TOLARANCE &&
+    encoder.getPosition() >= angle - Constants.ARM_TOLARANCE;
+  }
+
 
   public double getCurrentAngle_In_Rads()
   {

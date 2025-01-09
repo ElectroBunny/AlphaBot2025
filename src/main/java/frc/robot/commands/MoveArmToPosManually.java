@@ -25,7 +25,7 @@ public class MoveArmToPosManually extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    this.arm.setVoltage(this.velocitySupplier.getAsDouble());
+    this.arm.setVoltage(this.velocitySupplier.getAsDouble()); // set voltage proportional to voltage.
   }
 
   // Called every time the scheduler runs while the command is scheduled.
