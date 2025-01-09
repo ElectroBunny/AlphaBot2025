@@ -11,13 +11,13 @@ import frc.robot.subsystems.Pivot;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PivotMoveWithJoystick extends Command {
-  public Pivot myPivot;
+  private Pivot myPivot;
 
-  private DoubleSupplier _double_Supplier;
+  private DoubleSupplier doubleSupplier;
 
-  public PivotMoveWithJoystick(DoubleSupplier Double_Supplier)
+  private PivotMoveWithJoystick(DoubleSupplier myDoubleSupplier)
   {
-    _double_Supplier = Double_Supplier;
+    doubleSupplier = myDoubleSupplier;
 
     myPivot = Pivot.GetInstance();
     addRequirements(myPivot);
@@ -31,14 +31,14 @@ public class PivotMoveWithJoystick extends Command {
   @Override
   public void execute()
   {
-    myPivot.SetPower(_double_Supplier.getAsDouble());
+    myPivot.setPower(doubleSupplier.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted)
   {
-    myPivot.StopMotor();
+    myPivot.stopMotor();
   }
 
   // Returns true when the command should end.

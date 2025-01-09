@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -26,15 +27,13 @@ public class Pivot extends SubsystemBase {
 
   private static Pivot instance = null;
 
-  public double tolerance = 2.0;
-
   private Pivot()
   {
-    motor = new SparkFlex(1, MotorType.kBrushless);
+    motor = new SparkFlex(Constants.pivotMotorID, MotorType.kBrushless);
     closedLoopController = motor.getClosedLoopController();
     encoder = motor.getEncoder();
 
-    motorConfig.encoder.positionConversionFactor(360);
+    motorConfig.encoder.positionConversionFactor(Constants.completeAngle);
     
     motorConfig = new SparkFlexConfig();
 
@@ -42,14 +41,14 @@ public class Pivot extends SubsystemBase {
 
     motorConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kAlternateOrExternalEncoder)
-        .p(0.4)
-        .i(0)
-        .d(0)
+        .p(Constants.pivotP)
+        .i(Constants.pivotI)
+        .d(Constants.pivotD)
         .outputRange(-1, 1);
 
     motorConfig.closedLoop.maxMotion
-        .maxVelocity(1000)
-        .maxAcceleration(1000)
+        .maxVelocity(Constants.pivotMaxVelocity)
+        .maxAcceleration(Constants.pivotMaxAccel)
         .allowedClosedLoopError(1);
 
     motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
@@ -68,7 +67,7 @@ public class Pivot extends SubsystemBase {
   }
 
   /***
-   * The function moves the motor to the wanted angle
+   * The function moves the pivot to the wanted angle
    * 
    * @param angle - the angle to move the motor to
    */
@@ -77,25 +76,25 @@ public class Pivot extends SubsystemBase {
     closedLoopController.setReference(angle, ControlType.kMAXMotionPositionControl,ClosedLoopSlot.kSlot0);
   }
 
-  public void SetPower(double power)
+  public void setPower(double power)
   {
     motor.set(power);
   }
 
-  public void StopMotor()
+  public void stopMotor()
   {
     motor.stopMotor();
   }
 
   /***
-   * The function checks if the motor has reached the wanted angle
+   * The function checks if the pivot has reached the wanted angle
    * 
    * @param angle - The angle we want the motor to move to
    * @return if the motor has reached the wanted angle
    */
   public boolean isAtAngle(double angle)
   {
-    return encoder.getPosition() <= angle + tolerance && encoder.getPosition() >= angle - tolerance;
+    return encoder.getPosition() <= angle + Constants.pivotTolerance && encoder.getPosition() >= angle - Constants.pivotTolerance;
   }
 
   @Override

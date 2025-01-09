@@ -15,5 +15,20 @@ package frc.robot;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+
   }
+
+  
+  public static final double completeAngle = 360;
+
+  // Variables used by the pivot
+  public static final int pivotMotorID = 1;
+  public static final double pivotTolerance = 2.0;
+
+  public static final double pivotP = 0.4;
+  public static final double pivotI = 0.0;
+  public static final double pivotD = 0.0;
+
+  public static final int pivotMaxVelocity = 1000;
+  public static final int pivotMaxAccel = 1000;
 }

@@ -9,10 +9,10 @@ import frc.robot.subsystems.Pivot;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PivotMoveToAngle extends Command {
-  public Pivot myPivot;
+  private Pivot myPivot;
   private double myAngle;
 
-  public PivotMoveToAngle(double myAngle)
+  private PivotMoveToAngle(double myAngle)
   {
     this.myAngle = myAngle;
     myPivot = Pivot.GetInstance();
@@ -34,7 +34,7 @@ public class PivotMoveToAngle extends Command {
   @Override
   public void end(boolean interrupted)
   {
-    myPivot.StopMotor();
+    myPivot.stopMotor();
   }
 
   // Returns true when the command should end.
