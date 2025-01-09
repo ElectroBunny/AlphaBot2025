@@ -26,5 +26,5 @@ public final class Constants
   
   public static final double TELESCOPE_I = 0;
 
-  public static final double TELESCOPE_D = 0;
+  public static final int CLIMBER_SPARK_ID = 0;
 }
