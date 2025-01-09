@@ -12,6 +12,19 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {
+public final class Constants 
+{
+  public static final double TELESCOPE_POSITION_TOLERANCE = 0.5; 
+  
+  public static final int TELESCOPE_MOTOR_ID = 0; 
+
+  public static final double TELESCOPE_MAX_VELO = 1000;
+
+  public static final  double TELESCOPE_MAX_ACCELLERATION = 1000;
+
+  public static final double TELESCOPE_P = 0.4;
+  
+  public static final double TELESCOPE_I = 0;
+
   public static final int CLIMBER_SPARK_ID = 0;
 }
