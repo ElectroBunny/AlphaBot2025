@@ -15,7 +15,7 @@ package frc.robot;
 public final class Constants {
   public static final int ARM_MOTOR_ID = 0;
 
-  public static final double ARM_POSITION_CONVERTION_FACTOR = 1;
+  public static final double ARM_POSITION_CONVERTION_FACTOR = 360;
 
   public static final double ARM_P = 1;
   public static final double ARM_D = 1;

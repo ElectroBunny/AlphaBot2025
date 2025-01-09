@@ -19,6 +19,7 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import frc.robot.Constants;
@@ -43,6 +44,9 @@ public class Arm extends SubsystemBase {
 
     // configure encoder to specific conversion factor.
     this.motorConfig.encoder.positionConversionFactor(Constants.ARM_POSITION_CONVERTION_FACTOR); // maybe need to add velocity control.
+    
+    //set the motor to break mode so that the motor wont move.
+    this.motorConfig.idleMode(IdleMode.kBrake);
 
     //configuring the encoders close loop 
     this.motorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -75,7 +79,7 @@ public class Arm extends SubsystemBase {
   public void setAngle(double angle)
   {
     //sets the arm to a target angle
-    this.closedLoopController.setReference(Math.toRadians(angle), ControlType.kPosition);
+    this.closedLoopController.setReference(angle, ControlType.kPosition);
   }
 
   public double getCurrentAngle_In_Rads()
