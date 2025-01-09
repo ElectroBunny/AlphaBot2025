@@ -62,8 +62,13 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledPeriodic() {
-    if (RobotController.getUserButton()) {  
+  /**
+   * Resets the telescope's position when the user button is pressed.
+   */
+  public void disabledPeriodic() 
+  {
+    if (RobotController.getUserButton()) 
+    {  
       Telescope.getInstance().resetPosition();
     }
   }
